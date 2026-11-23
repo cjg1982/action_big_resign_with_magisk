@@ -67,14 +67,9 @@ jobs:
         sed -i "s/trusted_version=.*/trusted_version=$ANTIROLL/" main/config/version.cfg
         ./sign_v3.sh
 
-    - name: Upload to Release
-      uses: softprops/action-gh-release@v3
+    - name: Upload patched images
+      uses: actions/upload-artifact@v4
       with:
-        files: | 
-          resigned.zip
-        name: ${{ github.run_id }}
-        tag_name: ${{ github.run_id }}
-        body: |
-          URL: ${{ github.event.inputs.ZIP_URL }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: x2-resigned-images
+        path: resigned.zip
+        if-no-files-found: error
